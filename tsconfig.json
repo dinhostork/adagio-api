@@ -20,5 +20,6 @@
       
     }
   },
-  "include": ["src/**/*.ts", "src/app/models/index.js"]
+  "include": ["src/**/*.ts", "src/app/models/index.js"],
+  "exclude": ["**/*.test.*", "**/__mocks__/*", "**/__tests__/*"]
 }

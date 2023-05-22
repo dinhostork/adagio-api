@@ -1,14 +1,14 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../../config/database";
 
-interface UserAttributes {
+export interface UserAttributes {
   id: string;
   name: string;
   email: string;
   password: string;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+export interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
 
 class User
   extends Model<UserAttributes, UserCreationAttributes>
@@ -51,6 +51,7 @@ User.init(
   {
     timestamps: true,
     tableName: "users",
+    underscored: true,
     sequelize,
   }
 );

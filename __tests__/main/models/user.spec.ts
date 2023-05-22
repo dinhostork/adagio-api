@@ -1,9 +1,9 @@
-import sequelize from "../../../src/config/database";
-import User from "../../../src/app/models/User.model"
+import User from "../../../src/app/models/User.model";
+import sequelizeConnection from "../../../src/config/database";
 
 describe("User Model", () => {
   beforeAll(async () => {
-    await sequelize.sync(); // Synchronize the model with the database
+    await sequelizeConnection.sync(); // Synchronize the model with the database
   });
 
   afterEach(async () => {
@@ -11,7 +11,7 @@ describe("User Model", () => {
   });
 
   afterAll(async () => {
-    await sequelize.close(); // Close the database connection
+    await sequelizeConnection.close(); // Close the database connection
   });
 
   it("should create a new user", async () => {
@@ -24,7 +24,6 @@ describe("User Model", () => {
 
     // Act
     const user = await User.create(userData);
-    console.log(user)
     // Assert
     expect(user.id).toBeDefined();
     expect(user.name).toBe(userData.name);
