@@ -4,6 +4,9 @@ module.exports = {
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/**'
   ],
+  moduleNameMapper: {
+    '^@models/(.*)$': '<rootDir>/src/app/models/$1',
+  },
   coverageDirectory: 'coverage',
   coverageProvider: 'babel',
   testEnvironment: 'node',
