@@ -1,4 +1,4 @@
 import { Server } from "./server";
 
-const app = new Server();
+export const app = new Server();
 app.start();
