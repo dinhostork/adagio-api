@@ -14,17 +14,17 @@ export class UserController {
     try {
       const payload: UserCreationAttributes = request.body;
 
-      if (!payload.email || !payload.password) {
-        throw new BadRequestError("Missing email or password");
+      if (!payload.email || !payload.password || !payload.name) {
+        throw new BadRequestError("Alguns campos são obrigatórios");
       }
 
       if(Yup.string().email().required().isValidSync(payload.email) === false){
-        throw new BadRequestError("Invalid email");
+        throw new BadRequestError("Email inválido");
       }
       
 
       if (await this.accountService.findUserByEmail(payload.email)) {
-        throw new BadRequestError("Email already exists");
+        throw new BadRequestError("Este email já está em uso");
       }
 
       const user = await this.accountService.createUser(payload);

@@ -18,7 +18,7 @@ describe("Criação de Conta", () => {
   });
 
   afterEach(async () => {
-    User.destroy({ where: {} }); 
+    User.destroy({ where: {} });
     await server.stop();
   });
 
@@ -44,13 +44,11 @@ describe("Criação de Conta", () => {
   });
 
   it("deve retornar 400 ao tentar criar uma conta com um e-mail já existente", async () => {
-
     await request(app).post("/v1/users").send({
       name: "Jane Smith",
       email: "jane.smith@example.com",
       password: "password456",
     });
-
 
     const response = await request(app).post("/v1/users").send({
       name: "John Doe",
@@ -86,8 +84,24 @@ describe("Criação de Conta", () => {
     expect(response.body).toHaveProperty("createdAt");
     expect(response.body).toHaveProperty("updatedAt");
 
-    const user = await User.findOne({ where: { email: "john.doe@example.com" } });
+    const user = await User.findOne({
+      where: { email: "john.doe@example.com" },
+    });
     expect(user).toBeTruthy();
     expect(await bcrypt.compare(password, user!.password)).toBe(true);
-  });      
-}); 
+  });
+
+  it("deve retornar 500 caso ocorra algum erro na criação do usuário", async () => {
+    jest.spyOn(User, "create").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const response = await request(app).post("/v1/users").send({
+      name: "John Doe",
+      email: 'valid@email.com',
+      password: "password123",
+    });
+
+    expect(response.status).toBe(500);
+  });
+});
