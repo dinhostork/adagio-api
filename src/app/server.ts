@@ -31,7 +31,6 @@ export class Server {
       );
     });
 
-  
     return this.app;
   }
 

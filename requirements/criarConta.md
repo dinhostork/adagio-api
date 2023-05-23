@@ -8,7 +8,7 @@ O backend do sistema deve fornecer recursos de criação de contas para os usuá
 - Verifica se não existe nenhum usuário cadastrado com este e-mail
 - **criptografa a senha** 
 - **Cria** um usuário com as informações recebidas
-- **retorna 200** com os dados do usuário incluindo o token jwt
+- **retorna 200** com os dados do usuário
 
 ## Exceções
 - retorna erro **404** se a rota não for encontrada

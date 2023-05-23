@@ -5,7 +5,7 @@ import {
   InternalServerError,
 } from "../../utils/errors/httpErrors";
 import { AccountService } from "../services/account.service";
-import { HttpError } from "@/utils/errors/httpErrors";
+import * as Yup from "yup";
 
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
@@ -17,6 +17,11 @@ export class AccountController {
       if (!payload.email || !payload.password) {
         throw new BadRequestError("Missing email or password");
       }
+
+      if(Yup.string().email().required().isValidSync(payload.email) === false){
+        throw new BadRequestError("Invalid email");
+      }
+      
 
       if (await this.accountService.findAccountByEmail(payload.email)) {
         throw new BadRequestError("Email already exists");

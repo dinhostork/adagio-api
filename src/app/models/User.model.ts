@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../../config/database";
+import bcrypt from "bcrypt";
 
 export interface UserAttributes {
   id: string;
@@ -55,5 +56,12 @@ User.init(
     sequelize,
   }
 );
+
+User.addHook("beforeSave", async (user: User) => {
+  if (user.changed("password")) {
+    user.password = await bcrypt.hash(user.password, 10);
+  }
+});
+
 
 export default User;
