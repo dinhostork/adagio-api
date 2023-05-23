@@ -1,12 +1,12 @@
-import { createAccountController } from "@/app/factories/createAccountController";
+import { createUserController } from "@/app/factories/createUserController";
 import { Router, Request, Response, NextFunction } from "express";
 
 const router = Router();
 const slug = "/users";
 
 router.post("/", (req: Request, res: Response, nextFunction: NextFunction) => {
-  const accountController = createAccountController()
-  return accountController.createAccount(req, res, nextFunction);
+  const userController = createUserController()
+  return userController.createUser(req, res, nextFunction);
 });
 
 export { router, slug };

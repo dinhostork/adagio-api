@@ -4,13 +4,13 @@ import {
   BadRequestError,
   InternalServerError,
 } from "../../utils/errors/httpErrors";
-import { AccountService } from "../services/account.service";
+import { UserService } from "../services/User.service";
 import * as Yup from "yup";
 
-export class AccountController {
-  constructor(private readonly accountService: AccountService) {}
+export class UserController {
+  constructor(private readonly accountService: UserService) {}
 
-  async createAccount(request: Request, response: Response, next: any) {
+  async createUser(request: Request, response: Response, next: any) {
     try {
       const payload: UserCreationAttributes = request.body;
 
@@ -23,11 +23,11 @@ export class AccountController {
       }
       
 
-      if (await this.accountService.findAccountByEmail(payload.email)) {
+      if (await this.accountService.findUserByEmail(payload.email)) {
         throw new BadRequestError("Email already exists");
       }
 
-      const user = await this.accountService.createAccount(payload);
+      const user = await this.accountService.createUser(payload);
       return response.json(user);
     } catch (err: any) {
       next(err);
