@@ -1,0 +1,11 @@
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+
+module.exports = {
+  env: process.env.NODE_ENV || 'development',
+  config: path.resolve('src/config/database', 'index.js'),
+  'models-path': path.resolve('src/app/models'),
+  'seeders-path': path.resolve('src/database/seeders'),
+  'migrations-path': path.resolve('src/database/migrations')
+}

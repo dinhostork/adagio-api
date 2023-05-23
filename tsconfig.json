@@ -3,7 +3,23 @@
     "target": "es6",
     "module": "commonjs",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/models/*": ["src/app/models/*"],
+      "@/config/*": ["src/config/*"],
+      "@/app/*": ["src/app/*"],
+      "@/database/*": ["src/database/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/errors/*": ["src/errors/*"],
+      "@/middlewares/*": ["src/middlewares/*"],
+      "@/controllers/*": ["src/app/controllers/*"],
+      "@/routes/*": ["src/app/routes/*"],
+      "@/validations/*": ["src/app/validations/*"],
+      "@/services/*": ["src/app/services/*"],
+      
+    }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "src/app/models/index.js"],
+  "exclude": ["**/*.test.*", "**/__mocks__/*", "**/__tests__/*"]
 }
