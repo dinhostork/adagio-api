@@ -40,4 +40,15 @@ describe("Autenticação de usuário", () => {
     expect(response.body).toHaveProperty("email");
     expect(response.body).toHaveProperty("token");
   });
+
+
+  it("deve retornar 401 quando o usuário não for encontrado", async () => {
+    const response = await request(app).post("/v1/auth").send({
+      email: "user@noExists.com",
+      password: "password123",
+    });
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("error");
+  });
 });
