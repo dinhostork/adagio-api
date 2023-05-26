@@ -9,11 +9,16 @@ export interface UserAttributes {
   password: string;
 }
 
-export interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
 
+
+export interface UserCreationAttributes
+  extends Optional<UserAttributes, "id" | "password">{}
+
+
+export interface UserWithoutPassword extends Optional<UserAttributes, "password"> {}
 class User
-  extends Model<UserAttributes, UserCreationAttributes>
-  implements UserAttributes
+  extends Model<UserWithoutPassword, UserCreationAttributes>
+  implements UserWithoutPassword
 {
   public id!: string;
   public name!: string;
@@ -62,6 +67,5 @@ User.addHook("beforeSave", async (user: User) => {
     user.password = await bcrypt.hash(user.password, 10);
   }
 });
-
 
 export default User;
