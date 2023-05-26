@@ -1,6 +1,7 @@
 import User, { UserCreationAttributes } from "../models/User.model";
 import { UserRepository } from "../repositories/UserRepository";
 import jwt from "jsonwebtoken";
+import * as bcr from "bcrypt";
 
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
@@ -21,4 +22,9 @@ export class UserService {
       expiresIn: 86400,
     });
   }
+
+  comparePassword(password: string, password1: string) {
+    return bcr.compare(password, password1);
+  }
+
 }
