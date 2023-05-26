@@ -6,6 +6,7 @@ export class UserService {
 
   async createUser(payload: UserCreationAttributes) {
     const user = await this.userRepository.create(payload);
+    user.password = undefined;
     return user;
   }
 

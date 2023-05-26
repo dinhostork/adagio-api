@@ -1,4 +1,4 @@
-import { createUserController } from "@/app/factories/createUserController";
+import { createUserController } from "../app/factories/createUserController";
 import { Router, Request, Response, NextFunction } from "express";
 
 const router = Router();

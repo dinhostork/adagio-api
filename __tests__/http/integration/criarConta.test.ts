@@ -104,4 +104,14 @@ describe("Criação de Conta", () => {
 
     expect(response.status).toBe(500);
   });
+  it("Não deve retornar o campo da senha do usuário", async () => {
+    const response = await request(app).post("/v1/users").send({
+      name: "John Doe",
+      email: 'john@email.com',
+      password: "password123",
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.body).not.toHaveProperty("password");
+  });
 });
