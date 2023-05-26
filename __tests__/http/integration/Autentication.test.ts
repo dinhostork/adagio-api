@@ -51,4 +51,21 @@ describe("Autenticação de usuário", () => {
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("error");
   });
+
+  it("deve retornar 401 quando a senha estiver incorreta", async () => {
+    const userData = {
+      name: "John Doe",
+      email: "john@email.com",
+      password: "password123",
+    };
+    await User.create(userData);
+
+    const response = await request(app).post("/v1/auth").send({
+      email: userData.email,
+      password: "password1234",
+    });
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("error");
+  });
 });
