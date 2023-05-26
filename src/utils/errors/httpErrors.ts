@@ -27,3 +27,9 @@ export class InternalServerError extends HttpError {
     super(500, message);
   }
 }
+
+export class UnauthorizedError extends HttpError {
+  constructor(public message: string) {
+    super(401, message);
+  }
+}

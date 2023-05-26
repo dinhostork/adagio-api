@@ -1,5 +1,7 @@
-import { UserCreationAttributes } from "../models/User.model";
+import User, { UserCreationAttributes } from "../models/User.model";
 import { UserRepository } from "../repositories/UserRepository";
+import jwt from "jsonwebtoken";
+import * as bcr from "bcrypt";
 
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
@@ -14,4 +16,15 @@ export class UserService {
     const user = await this.userRepository.findByEmail(email);
     return user;
   }
+
+  authenticate(user: User) {
+    return jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, {
+      expiresIn: 86400,
+    });
+  }
+
+  comparePassword(password: string, password1: string) {
+    return bcr.compare(password, password1);
+  }
+
 }
