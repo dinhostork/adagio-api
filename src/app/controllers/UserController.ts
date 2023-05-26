@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { UserCreationAttributes } from "../models/User.model";
 import {
   BadRequestError,
@@ -6,6 +6,8 @@ import {
 } from "../../utils/errors/httpErrors";
 import { UserService } from "../services/User.service";
 import * as Yup from "yup";
+import { ProtectedRequest } from "../interfaces/protectedRequest";
+
 
 export class UserController {
   constructor(private readonly accountService: UserService) {}
@@ -30,6 +32,16 @@ export class UserController {
       const user = await this.accountService.createUser(payload);
       return response.json(user);
     } catch (err: any) {
+      next(err);
+    }
+  }
+
+  async getLoggedUser(request: ProtectedRequest, response: Response, next: any) {
+    try {
+      const user = await this.accountService.findUserById(request.userId)
+      return response.json(user);
+    }
+    catch (err: any) {
       next(err);
     }
   }
