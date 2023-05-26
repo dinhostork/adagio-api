@@ -5,16 +5,16 @@ import { ProtectedRequest } from "@/app/interfaces/protectedRequest";
 
 const router = Router();
 const slug = "/users";
+const userController = createUserController();
 
 router.post("/", (req: Request, res: Response, nextFunction: NextFunction) => {
-  const userController = createUserController();
   return userController.createUser(req, res, nextFunction);
 });
 
 router.use(autenticated);
 
 router.get("/", (req: ProtectedRequest, res: Response, nextFunction: NextFunction) => {
-  return res.json({ message: "protected route" });
+  return userController.getLoggedUser(req, res, nextFunction);
 });
 
 export { router, slug };
