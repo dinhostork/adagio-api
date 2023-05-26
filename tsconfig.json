@@ -5,6 +5,7 @@
     "strict": true,
     "esModuleInterop": true,
     "baseUrl": ".",
+    "outDir": "dist/",
     "paths": {
       "@/models/*": ["src/app/models/*"],
       "@/config/*": ["src/config/*"],
