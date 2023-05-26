@@ -3,20 +3,6 @@ import { Server } from "../../../src/app/server";
 import sequelizeConnection from "../../../src/config/database";
 import User from "../../../src/app/models/User.model";
 
-// # Backend: Middleware de Autenticação
-
-// O backend do sistema deve reconhecer os usuários através do token
-
-// ## Casos de Sucesso
-// - Recebe uma requisição para uma rota protegida com o **token no cabeçalho**
-// - Valida se o campo token está presente na requisição e é válido
-// - exporta o id na requisição
-// - prossegue com a requisição
-
-// ## Exceções
-// - retorna erro **400** se o campo **token**, não for fornecido no cabeçalho ou não for válido
-// - retorna erro **401** caso o token tenha expirado
-
 describe("Middleware de Autenticação", () => {
   let server: Server;
   let app: Express.Application;
