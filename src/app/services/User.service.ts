@@ -27,4 +27,8 @@ export class UserService {
     return bcr.compare(password, password1);
   }
 
+  findUserById(userId: string | undefined) {
+    return this.userRepository.findById(userId);
+  }
+
 }
