@@ -13,8 +13,12 @@ export const postValidator = (
         text: Joi.string().required().messages({
           "any.required": "O texto é obrigatório",
         }),
-        privacy_id: Joi.number().required().messages({
+        privacy_id: Joi.number().integer().min(1).max(3).required().messages({
           "any.required": "O ID da privacidade é obrigatório",
+          "number.base": "O ID da privacidade deve ser um número",
+          "number.integer": "O ID da privacidade deve ser um número inteiro",
+          "number.min": "Código de privacidade inválido",
+          "number.max": "Código de privacidade inválido",
         }),
       },
     },
