@@ -3,44 +3,36 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.createTable("posts", {
+    return queryInterface.createTable("post_files", {
       id: {
         type: Sequelize.STRING,
         primaryKey: true,
         allowNull: false,
       },
-      owner_id: {
+      post_id: {
         type: Sequelize.STRING,
         allowNull: false,
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
         references: {
-          model: "users",
+          model: "posts",
           key: "id",
           onUpdate: "CASCADE",
           onDelete: "CASCADE",
-          allowNull: false,
         },
       },
-      privacy_id: {
-        type: Sequelize.INTEGER,
+      file_id: {
+        type: Sequelize.STRING,
         allowNull: false,
-        onUpdate: "CASCADE",
         onDelete: "CASCADE",
+        onUpdate: "CASCADE",
         references: {
-          model: "privacies",
+          model: "files",
           key: "id",
           onUpdate: "CASCADE",
           onDelete: "CASCADE",
-          allowNull: false,
         },
       },
-
-      text: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
-
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -53,6 +45,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.dropTable("posts");
+    return queryInterface.dropTable("post_files");
   },
 };
