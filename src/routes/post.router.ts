@@ -7,6 +7,7 @@ import { autenticated } from "../middlewares/autenticated";
 import { celebrate } from "celebrate";
 import { postValidator } from "../app/validators/posts";
 import { upload } from "../storage/upload";
+import { createPostController } from "@/app/factories/createPostController";
 
 const router = Router();
 const slug = "/posts";
@@ -17,19 +18,18 @@ router.post(
   "/",
   postValidator,
   async (req: ProtectedRequest, res: Response, next: NextFunction) => {
-    const postRepository = new PostDao();
-    const postService = new PostService(postRepository);
-    const postController = new PostController(postService);
-
+    const postController = createPostController();
     return postController.createPost(req, res, next);
   }
 );
 
-router.post('/:postId/files', upload.array('file'), async (req: ProtectedRequest, res: Response, next: NextFunction) => {
-  const postRepository = new PostDao();
-    const postService = new PostService(postRepository);
-    const postController = new PostController(postService);
-  return postController.uploadFiles(req, res, next);
-});
+router.post(
+  "/:postId/files",
+  upload.array("file"),
+  async (req: ProtectedRequest, res: Response, next: NextFunction) => {
+    const postController = createPostController();
+    return postController.uploadFiles(req, res, next);
+  }
+);
 
 export { router, slug };
