@@ -1,10 +1,6 @@
 import { Router, Response, NextFunction } from "express";
 import { ProtectedRequest } from "../app/interfaces/protectedRequest";
-import { PostController } from "../app/controllers/PostController";
-import { PostService } from "../app/services/Post.service";
-import { PostDao } from "../app/dao/post.dao";
 import { autenticated } from "../middlewares/autenticated";
-import { celebrate } from "celebrate";
 import { postValidator } from "../app/validators/posts";
 import { upload } from "../storage/upload";
 import { createPostController } from "@/app/factories/createPostController";
