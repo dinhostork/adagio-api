@@ -6,6 +6,8 @@ import Privacy from "./Privacy.model";
 export interface PostAttributes {
   id: string;
   text: string;
+  owner_id: string;
+  privacy_id: number;
 }
 
 export interface PostCreationAttributes
@@ -28,12 +30,22 @@ Post.init(
   {
     id: {
       type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
 
     text: {
       type: DataTypes.TEXT,
+      allowNull: false,
+    },
+
+    owner_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    privacy_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },
