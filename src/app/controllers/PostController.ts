@@ -1,6 +1,7 @@
 import { NextFunction, Response } from "express";
 import { PostService } from "../services/Post.service";
 import { ProtectedRequest } from "../interfaces/protectedRequest";
+import { BadRequestError } from "../../utils/errors/httpErrors";
 
 export class PostController {
   constructor(public readonly postService: PostService) {}
