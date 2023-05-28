@@ -43,5 +43,24 @@ describe("Publicações", () => {
       });
     expect(response.status).toBe(200);
   });
-  
+
+  it("deve retornar 400 se a publicação não tiver texto", async () => {
+    const response = await request(app)
+      .post("/v1/posts")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        privacy_id: 1,
+      });
+    expect(response.status).toBe(400);
+  });
+
+  it("deve retornar 400 se a publicação não tiver privacidade", async () => {
+    const response = await request(app)
+      .post("/v1/posts")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        text: "content",
+      });
+    expect(response.status).toBe(400);
+  });
 });
