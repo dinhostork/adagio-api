@@ -7,4 +7,15 @@ export class PostService {
   public async createPost(post: PostCreationAttributes): Promise<Post> {
     return this.postRepository.createPost(post);
   }
+
+  public async setPublished(postId: string): Promise<Post> {
+    return this.postRepository.setPublished(postId);
+  }
+
+  public async uploadFiles(
+    files: Express.Multer.File[],
+    postId: string
+  ): Promise<Post> {
+    return this.postRepository.uploadFiles(files, postId);
+  }
 }

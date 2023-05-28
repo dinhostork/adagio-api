@@ -2,12 +2,14 @@ import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../../config/database";
 import User from "./User.model";
 import Privacy from "./Privacy.model";
+import PostFile from "./PostFile.model";
 
 export interface PostAttributes {
   id: string;
   text: string;
   owner_id: string;
   privacy_id: number;
+  published?: boolean;
 }
 
 export interface PostCreationAttributes
@@ -48,6 +50,11 @@ Post.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    published: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
     timestamps: true,
@@ -65,5 +72,10 @@ Post.belongsTo(User, {
 Post.belongsTo(Privacy, {
   foreignKey: "privacy_id",
   as: "privacy",
+});
+
+Post.hasMany(PostFile, {
+  foreignKey: "post_id",
+  as: "files",
 });
 export default Post;

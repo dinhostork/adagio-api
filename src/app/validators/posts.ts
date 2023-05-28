@@ -20,6 +20,9 @@ export const postValidator = (
           "number.min": "Código de privacidade inválido",
           "number.max": "Código de privacidade inválido",
         }),
+        hasMedia: Joi.boolean().messages({
+          "boolean.base": "O campo hasMedia deve ser um booleano",
+        })
       },
     },
     {
