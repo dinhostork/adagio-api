@@ -63,4 +63,15 @@ describe("Publicações", () => {
       });
     expect(response.status).toBe(400);
   });
+
+  it("deve retornar 400 se a publicação tiver privacidade inválida", async () => {
+    const response = await request(app)
+      .post("/v1/posts")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        text: "content",
+        privacy_id: 4,
+      });
+    expect(response.status).toBe(400);
+  });
 });
