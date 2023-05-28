@@ -27,7 +27,6 @@ describe("Publicações", () => {
     });
     token = response.body.token;
   });
-  
 
   afterAll(async () => {
     await Post.destroy({ where: {} });
@@ -77,7 +76,6 @@ describe("Publicações", () => {
     expect(response.status).toBe(400);
   });
 
- 
   it("deve enviar os arquivos para o servidor externo", async () => {
     const post = await request(app)
       .post("/v1/posts")
@@ -87,18 +85,36 @@ describe("Publicações", () => {
         privacy_id: 1,
       });
 
+    const filepath = `${__dirname}/fixtures/test.jpg`;
+    const fileBuffer = fs.readFileSync(filepath);
 
-      const filepath = `${__dirname}/fixtures/test.jpg`
-      const fileBuffer = fs.readFileSync(filepath);
-
-    
     const response = await request(app)
       .post(`/v1/posts/${post.body.id}/files`)
       .set("Authorization", `Bearer ${token}`)
       .set("Content-Type", "multipart/form-data")
       .attach("file", fileBuffer, "test.jpg");
-    
+
     expect(response.status).toBe(200);
   });
 
+  it("deve retornar 400 se o arquivo não for uma imagem, audio ou video", async () => {
+    const post = await request(app)
+      .post("/v1/posts")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        text: "content",
+        privacy_id: 1,
+      });
+
+    const filepath = `${__dirname}/fixtures/invalidFile.txt`;
+    const fileBuffer = fs.readFileSync(filepath);
+
+    const response = await request(app)
+      .post(`/v1/posts/${post.body.id}/files`)
+      .set("Authorization", `Bearer ${token}`)
+      .set("Content-Type", "multipart/form-data")
+      .attach("file", fileBuffer, "invalidFile.txt");
+
+    expect(response.status).toBe(400);
+  });
 });
