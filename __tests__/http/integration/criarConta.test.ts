@@ -19,7 +19,7 @@ describe("Criação de Conta", () => {
 
   afterEach(async () => {
     User.destroy({ where: {} });
-    await server.stop();
+    server.stop();
   });
 
   it("deve retornar 200 com os dados do usuário", async () => {
