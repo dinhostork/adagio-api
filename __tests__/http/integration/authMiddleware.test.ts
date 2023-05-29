@@ -23,7 +23,7 @@ describe("Middleware de Autenticação", () => {
     await server.stop();
   });
 
-  it("deve retornar 400 se o token não for fornecido", async () => {
+  it("deve retornar 400 se o authorization não for fornecido", async () => {
     const response = await request(app).get("/v1/users");
 
     expect(response.status).toBe(400);
@@ -31,11 +31,32 @@ describe("Middleware de Autenticação", () => {
   });
 
   it("deve retornar 400 se o token for inválido", async () => {
-    const token = (await request(app).post("/v1/auth").send(userData)).body.token;
-    const response = await request(app).get("/v1/users").set("Authorization", `Bearer ${token}123`);
+    const token = (await request(app).post("/v1/auth").send(userData)).body
+      .token;
+    const response = await request(app)
+      .get("/v1/users")
+      .set("Authorization", `Bearer ${token}123`);
 
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("message");
   });
 
+  it("deve retornar 400 se o token for inválido", async () => {
+    const response = await request(app)
+      .get("/v1/users")
+      .set("Authorization", `Bearer `);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  it("deve permitir o acesso se o token for válido", async () => {
+    const token = (await request(app).post("/v1/auth").send(userData)).body
+      .token;
+    const response = await request(app)
+      .get("/v1/users")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
 });

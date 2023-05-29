@@ -36,13 +36,4 @@ export class UserController {
     }
   }
 
-  async getLoggedUser(request: ProtectedRequest, response: Response, next: any) {
-    try {
-      const user = await this.accountService.findUserById(request.userId)
-      return response.json(user);
-    }
-    catch (err: any) {
-      next(err);
-    }
-  }
 }

@@ -13,11 +13,4 @@ export class UserDao implements UserRepository {
     const user = await User.findOne({ where: { email } });
     return user;
   }
-  async findById(
-    userId: string | undefined
-  ): Promise<UserWithoutPassword | null> {
-    const user = (await User.findByPk(userId)) as UserWithoutPassword;
-    user.password = undefined;
-    return user;
-  }
 }

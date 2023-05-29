@@ -14,7 +14,7 @@ router.post("/", (req: Request, res: Response, nextFunction: NextFunction) => {
 router.use(autenticated);
 
 router.get("/", (req: ProtectedRequest, res: Response, nextFunction: NextFunction) => {
-  return userController.getLoggedUser(req, res, nextFunction);
+  return res.json(req.userId);
 });
 
 export { router, slug };
