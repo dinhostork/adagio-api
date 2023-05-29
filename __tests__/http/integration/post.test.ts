@@ -117,4 +117,39 @@ describe("Publicações", () => {
 
     expect(response.status).toBe(400);
   });
+  it("deve retornar 400 caso o usuário que não seja o dono da publicação tente adicionar um arquivo", async () => {
+    const userdata2 = {
+      name: "John Doe2",
+      email: "j2@email.com",
+      password: "1234",
+    };
+
+    await User.create(userdata2);
+
+    const login = await request(app).post("/v1/auth").send({
+      email: userdata2.email,
+      password: userdata2.password,
+    });
+
+    const token2 = login.body.token;
+
+    const post = await request(app)
+      .post("/v1/posts")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        text: "content",
+        privacy_id: 1,
+      });
+
+    const filepath = `${__dirname}/fixtures/test.jpg`;
+    const fileBuffer = fs.readFileSync(filepath);
+
+    const response = await request(app)
+      .post(`/v1/posts/${post.body.id}/files`)
+      .set("Authorization", `Bearer ${token2}`) // outro usuário
+      .set("Content-Type", "multipart/form-data")
+      .attach("file", fileBuffer, "test.jpg");
+
+    expect(response.status).toBe(400);
+  });
 });
