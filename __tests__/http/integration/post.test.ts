@@ -83,6 +83,7 @@ describe("Publicações", () => {
       .send({
         text: "content",
         privacy_id: 1,
+        hasMedia: true,
       });
 
     const filepath = `${__dirname}/fixtures/test.jpg`;
@@ -151,5 +152,5 @@ describe("Publicações", () => {
       .attach("file", fileBuffer, "test.jpg");
 
     expect(response.status).toBe(400);
-  });
+  });    
 });

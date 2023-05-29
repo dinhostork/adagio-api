@@ -1,6 +1,7 @@
 import { NextFunction, Response } from "express";
 import { PostService } from "../services/Post.service";
 import { ProtectedRequest } from "../interfaces/protectedRequest";
+import { PostPayload } from "../interfaces/posts";
 
 export class PostController {
   constructor(public readonly postService: PostService) {}
@@ -11,7 +12,7 @@ export class PostController {
     next: NextFunction
   ) {
     try {
-      const { text, privacy_id, hasMedia } = req.body;
+      const { text, privacy_id, hasMedia } = req.body as PostPayload;
       const { userId } = req;
 
       const post = await this.postService.createPost({
