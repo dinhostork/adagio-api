@@ -25,6 +25,5 @@ export const postOwner = async (
     if (error instanceof HttpError) {
       return res.status(error.status).json({ message: error.message });
     }
-    return res.status(500).json({ message: "Internal Server Error" });
   }
 };

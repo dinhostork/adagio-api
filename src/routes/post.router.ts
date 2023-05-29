@@ -14,9 +14,9 @@ router.use(autenticated);
 router.post(
   "/",
   postValidator,
-  async (req: ProtectedRequest, res: Response, next: NextFunction) => {
+  async (req: ProtectedRequest, res: Response) => {
     const postController = createPostController();
-    return postController.createPost(req, res, next);
+    return postController.createPost(req, res);
   }
 );
 
