@@ -50,4 +50,14 @@ export class PostController {
       next(err);
     }
   }
+
+  async getPostById(req: ProtectedRequest, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const post = await this.postService.getPostByIdAndOwner(id, req.userId!);
+      return res.json(post);
+    } catch (err) {
+      next(err);
+    }
+  }
 }

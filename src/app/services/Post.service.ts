@@ -31,4 +31,8 @@ export class PostService {
 
     return this.postRepository.uploadFiles(files, postId);
   }
+
+  public async getPostByIdAndOwner(postId: string, idUser: string): Promise<Post> {
+    return this.postRepository.getPostByIdAndOwner(postId, idUser);
+  }
 }

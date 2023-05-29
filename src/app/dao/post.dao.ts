@@ -33,7 +33,10 @@ export class PostDao implements PostRepository {
     });
     return post!;
   }
-  async uploadFiles(files: Express.Multer.File[], postId: string): Promise<Post> {
+  async uploadFiles(
+    files: Express.Multer.File[],
+    postId: string
+  ): Promise<Post> {
     const fileCreationPromises = files.map(async (file) => {
       const savedFile = await File.create({
         filename: file.filename,
@@ -41,19 +44,40 @@ export class PostDao implements PostRepository {
         original_name: file.originalname,
         url: file.path,
       });
-  
+
       await PostFile.create({
         post_id: postId,
         file_id: savedFile.id,
       });
     });
-  
+
     await Promise.all(fileCreationPromises);
-  
+
     const post = await this.setPublished(postId);
-    
 
     return post!;
   }
-  
+
+  async getPostByIdAndOwner(postId: string, userId: string): Promise<Post> {
+    const post = await Post.findOne({
+      where: {
+        id: postId,
+        owner_id: userId,
+      },
+      include: [
+        {
+          model: PostFile,
+          as: "files",
+          attributes: ["id"],
+          include: [
+            {
+              model: File,
+              as: "file",
+            },
+          ],
+        },
+      ],
+    });
+    return post!;
+  }
 }
