@@ -34,8 +34,10 @@ describe("Curtidas em Posts", () => {
     await sequelizeConnection.sync();
     server = new Server();
     app = server.start();
-    post = await makePost();
+  });
 
+  beforeEach(async () => {
+    post = await makePost();
     const response = await request(app).post("/v1/auth").send({
       email: "email@email.com",
       password: "12345678",
@@ -55,5 +57,17 @@ describe("Curtidas em Posts", () => {
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(201);
+  });
+
+  it("deve descadastrar a curtida do usuário e retornar 204", async () => {
+    await request(app)
+      .post(`/v1/likes/${post.id}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    const response = await request(app)
+      .post(`/v1/likes/${post.id}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(204);
   });
 });
