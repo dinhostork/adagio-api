@@ -80,4 +80,26 @@ export class PostDao implements PostRepository {
     });
     return post!;
   }
+
+  async getPostById(postId: string): Promise<Post> {
+    const post = await Post.findOne({
+      where: {
+        id: postId,
+      },
+      include: [
+        {
+          model: PostFile,
+          as: "files",
+          attributes: ["id"],
+          include: [
+            {
+              model: File,
+              as: "file",
+            },
+          ],
+        },
+      ],
+    });
+    return post!;
+  }
 }
