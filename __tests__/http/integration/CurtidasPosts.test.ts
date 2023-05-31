@@ -70,4 +70,12 @@ describe("Curtidas em Posts", () => {
 
     expect(response.status).toBe(204);
   });
+
+  it("deve retornar 404 quando o post não existir", async () => {
+    const response = await request(app)
+      .post(`/v1/likes/999`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
 });
