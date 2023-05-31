@@ -35,4 +35,8 @@ export class PostService {
   public async getPostByIdAndOwner(postId: string, idUser: string): Promise<Post> {
     return this.postRepository.getPostByIdAndOwner(postId, idUser);
   }
+
+  public async getPostById(postId: string): Promise<Post> {
+    return this.postRepository.getPostById(postId);
+  }
 }

@@ -3,7 +3,7 @@ import { ProtectedRequest } from "../app/interfaces/protectedRequest";
 import { autenticated } from "../middlewares/autenticated";
 import { postValidator } from "../app/validators/posts";
 import { upload } from "../storage/upload";
-import { createPostController } from "@/app/factories/createPostController";
+import { createPostController } from "../app/factories/createPostController";
 import { postOwner } from "../middlewares/postOwner";
 
 const router = Router();
