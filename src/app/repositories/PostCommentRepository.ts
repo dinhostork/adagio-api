@@ -2,4 +2,6 @@ import PostComment, { PostCommentCreationAttributes } from "../models/PostCommen
 
 export interface PostCommentRepository {
     create(data: PostCommentCreationAttributes): Promise<PostComment>;
+    getCommentById(id: string): Promise<PostComment | null>;
+    update(id: string, data: PostCommentCreationAttributes): Promise<PostComment | null>;
 }

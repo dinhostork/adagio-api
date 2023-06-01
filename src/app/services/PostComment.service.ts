@@ -7,4 +7,12 @@ export class PostCommentService {
   async create(payload: PostCommentCreationAttributes) {
     return this.postCommentRepository.create(payload);
   }
+
+  async getCommentById(id: string) {
+    return this.postCommentRepository.getCommentById(id);
+  }
+
+  async update(id: string, payload: PostCommentCreationAttributes) {
+    return this.postCommentRepository.update(id, payload);
+  }
 }
