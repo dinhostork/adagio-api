@@ -74,4 +74,35 @@ describe("Comentários de posts", () => {
       });
     expect(response.status).toBe(404);
   });
+
+    it("deve retornar 200 com os dados do comentário atualizado", async () => {
+    const comment1 =  await request(app)
+      .post(`/v1/comments/${post.id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        text: "comment",
+      });
+    
+
+    const response = await request(app)
+        .put(`/v1/comments/${comment1.body.id}`)
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+            text: "comment updated",
+        });
+    
+    expect(response.status).toBe(200);
+    expect(response.body.text).toBe("comment updated");
+    });
+
+    it("deve retornar 404 se o comentário para atualizar não existir", async () => {
+        const response = await request(app)
+        .put(`/v1/comments/123`)
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+            text: "comment updated",
+        });
+
+        expect(response.status).toBe(404);
+      });
 });
