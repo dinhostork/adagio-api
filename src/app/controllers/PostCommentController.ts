@@ -76,4 +76,21 @@ export class PostCommentController {
     }
   }
 
+  async delete(req: ProtectedRequest, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      const commentExists = await this.commentExists(id)
+
+      if (!commentExists) {
+        throw new NotFoundError("Comentário não encontrado");
+      }
+
+      await this.postCommentService.delete(id);
+      return res.status(204).json();
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }

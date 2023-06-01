@@ -15,4 +15,8 @@ export class PostCommentService {
   async update(id: string, payload: PostCommentCreationAttributes) {
     return this.postCommentRepository.update(id, payload);
   }
+
+  async delete(id: string) {
+    return this.postCommentRepository.delete(id);
+  }
 }

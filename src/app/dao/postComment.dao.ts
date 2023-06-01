@@ -18,4 +18,10 @@ export class PostCommentDao implements PostCommentRepository {
     comment?.update(payload);
     return comment;
   }
+
+  async delete(id: string) {
+    const comment = await this.getCommentById(id);
+    comment?.destroy();
+    return comment;
+  }
 }
