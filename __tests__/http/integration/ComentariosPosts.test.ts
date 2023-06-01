@@ -1,7 +1,11 @@
 import Post from "../../../src/app/models/Post.model";
 import User from "../../../src/app/models/User.model";
 import { PRIVACY_PUBLIC } from "../../../src/constants/privacies";
-import { Server, request, sequelizeConnection } from "../../../src/config/testsSetup";
+import {
+  Server,
+  request,
+  sequelizeConnection,
+} from "../../../src/config/testsSetup";
 const userdata = {
   name: "John Doe",
   email: "email@email.com",
@@ -61,4 +65,13 @@ describe("Comentários de posts", () => {
     expect(response.body).toHaveProperty("text");
   });
 
+  it("deve retornar 404 se o post não existir", async () => {
+    const response = await request(app)
+      .post(`/v1/comments/123`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        text: "comment",
+      });
+    expect(response.status).toBe(404);
+  });
 });
