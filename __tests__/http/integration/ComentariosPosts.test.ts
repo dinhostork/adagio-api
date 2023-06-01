@@ -1,7 +1,7 @@
 import Post from "../../../src/app/models/Post.model";
 import User from "../../../src/app/models/User.model";
 import { PRIVACY_PUBLIC } from "../../../src/constants/privacies";
-import { Server, request, sequelizeConnection } from "../setup";
+import { Server, request, sequelizeConnection } from "../../../src/config/testsSetup";
 const userdata = {
   name: "John Doe",
   email: "email@email.com",
