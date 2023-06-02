@@ -129,4 +129,32 @@ describe("Comentários de posts", () => {
 
     expect(response.status).toBe(404);
   });
+
+  it("deve retornar a lista paginada de comentários do post", async () => {
+    const comment1 = await request(app)
+      .post(`/v1/comments/${post.id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        text: "comment",
+      });
+
+    const comment2 = await request(app)
+      .post(`/v1/comments/${post.id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        text: "comment",
+      });
+
+    const response = await request(app)
+      .get(`/v1/comments/${post.id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send();
+    
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("count");
+    expect(response.body).toHaveProperty("comments");
+    expect(response.body.comments).toHaveLength(2);
+    expect(response.body.comments[0].id).toBe(comment1.body.id);
+    expect(response.body.comments[1].id).toBe(comment2.body.id);
+  });
 });
