@@ -8,6 +8,7 @@
     "start:dev": "NODE_ENV=development nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app/index.ts",
     "start:sqlite": "NODE_ENV=test nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app/index.ts",
     "test": "rimraf ./temp/* && NODE_ENV=test sequelize db:migrate && NODE_ENV=test sequelize db:seed:all && jest -i",
+    "test:silent": "rimraf ./temp/* && NODE_ENV=test sequelize db:migrate && NODE_ENV=test sequelize db:seed:all && jest -i --silent",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
