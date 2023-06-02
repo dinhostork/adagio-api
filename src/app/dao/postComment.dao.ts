@@ -24,4 +24,25 @@ export class PostCommentDao implements PostCommentRepository {
     comment?.destroy();
     return comment;
   }
+
+  async listPaginated(postId: string, page: number, limit: number) {
+    const offset = (page - 1) * limit;
+  
+    const commentsAll = await PostComment.findAndCountAll({
+      where: {
+        post_id: postId,
+      },
+      offset,
+      limit,
+    });
+  
+    const { rows: comments, count } = commentsAll;
+  
+    return {
+      comments,
+      count,
+    };
+  }
+  
+  
 }

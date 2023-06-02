@@ -26,4 +26,8 @@ router.delete('/:id', async (req: Request, res: Response, next: NextFunction) =>
   return postCommentController.delete(req, res, next);
 });
 
+router.get('/:postId', async (req: Request, res: Response, next: NextFunction) => {
+  const postCommentController = makeCreatePostCommentController()
+  return postCommentController.list(req, res, next);
+});
 export { router, slug };

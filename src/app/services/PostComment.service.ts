@@ -19,4 +19,8 @@ export class PostCommentService {
   async delete(id: string) {
     return this.postCommentRepository.delete(id);
   }
+
+  async list(postId: string, page: number = 1, limit: number = 10) {
+    return this.postCommentRepository.listPaginated(postId, page, limit);
+  }
 }

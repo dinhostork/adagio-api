@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { PostCommentService } from "../services/PostComment.service";
 import { ProtectedRequest } from "../interfaces/protectedRequest";
 import { PostService } from "../services/Post.service";
-import {  NotFoundError } from "@/utils/errors/httpErrors";
+import { NotFoundError } from "../../utils/errors/httpErrors";
 import { ParamsDictionary } from "express-serve-static-core";
 import { ParsedQs } from "qs";
 
@@ -12,12 +12,12 @@ export class PostCommentController {
     private readonly postService: PostService
   ) {}
 
-  async postExists (postId: string) {
+  async postExists(postId: string) {
     const post = await this.postService.getPostById(postId);
     return post;
   }
 
-  async commentExists (commentId: string) {
+  async commentExists(commentId: string) {
     const comment = await this.postCommentService.getCommentById(commentId);
     return comment;
   }
@@ -28,7 +28,7 @@ export class PostCommentController {
       const { userId } = req;
       const { text } = req.body;
 
-      const post = await this.postExists(postId)
+      const post = await this.postExists(postId);
 
       if (!post) {
         throw new NotFoundError("Publicação não encontrada");
@@ -52,11 +52,7 @@ export class PostCommentController {
       const { userId } = req;
       const { text } = req.body;
 
-
-      
-      
-
-      const commentExists = await this.commentExists(id)
+      const commentExists = await this.commentExists(id);
 
       if (!commentExists) {
         throw new NotFoundError("Comentário não encontrado");
@@ -65,9 +61,8 @@ export class PostCommentController {
       const payload = {
         text,
         owner_id: userId!,
-        post_id: commentExists.post_id
+        post_id: commentExists.post_id,
       };
-
 
       const comment = await this.postCommentService.update(id, payload);
       return res.status(200).json(comment);
@@ -80,7 +75,7 @@ export class PostCommentController {
     try {
       const { id } = req.params;
 
-      const commentExists = await this.commentExists(id)
+      const commentExists = await this.commentExists(id);
 
       if (!commentExists) {
         throw new NotFoundError("Comentário não encontrado");
@@ -93,4 +88,39 @@ export class PostCommentController {
     }
   }
 
+  async list(
+    req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+   
+
+      const { postId } = req.params;
+      let page = req.query.page as unknown as number;
+      let limit = req.query.limit as unknown as number;
+
+
+
+      if (!page) {
+        page = 1;
+      }
+
+      const post = await this.postExists(postId);
+
+      if (!post) {
+        throw new NotFoundError("Publicação não encontrada");
+      }
+
+      const comments = await this.postCommentService.list(
+        postId,
+        req.query.page as unknown as number,
+        req.query.limit as unknown as number,
+      );
+
+      return res.status(200).json(comments);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
