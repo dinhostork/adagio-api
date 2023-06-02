@@ -157,4 +157,13 @@ describe("Comentários de posts", () => {
     expect(response.body.comments[0].id).toBe(comment1.body.id);
     expect(response.body.comments[1].id).toBe(comment2.body.id);
   });
+
+  it("deve retornar 404 se o post para listar comentários não existir", async () => {
+    const response = await request(app)
+      .get(`/v1/comments/123`)
+      .set("Authorization", `Bearer ${token}`)
+      .send();
+    
+    expect(response.status).toBe(404);
+  })
 });
