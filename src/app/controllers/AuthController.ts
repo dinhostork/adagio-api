@@ -9,6 +9,10 @@ export class AuthController {
   async authenticate(req: Request, res: Response, next: NextFunction) {
     try {
       const payload: AuthPayload = req.body;
+      
+        if(!payload.email) {
+            throw new UnauthorizedError("Email ou senha incorretos");          
+        }
 
       const user = await this.accountService.findUserByEmail(payload.email);
 
