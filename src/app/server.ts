@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import "../config/database";
 import { HttpError } from "../utils/errors/httpErrors";
-import User from "./models/User.model";
+import cors from "cors";
 
 export class Server {
   private app: Application;
@@ -18,8 +18,14 @@ export class Server {
     this.port = parseInt(process.env.APLICATION_PORT || "5000");
     this.version = process.env.API_VERSION || 1;
     this.url = process.env.API_URL || "localhost";
-
+    this.app.use(
+      cors({
+        origin: "http://localhost:3000",
+      })
+    );
     this.app.use(express.json());
+    
+    
     this.app.use(`/v${this.version}`, router);
     this.middleware();
   }
@@ -35,15 +41,16 @@ export class Server {
   }
 
   middleware(): void {
-    this.app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
-      if (err instanceof HttpError) {
-        return err.sendResponse(res);
+    this.app.use(
+      (err: HttpError, req: Request, res: Response, next: NextFunction) => {
+        if (err instanceof HttpError) {
+          return err.sendResponse(res);
+        }
+        console.error(err);
+        return res.status(500).json({ error: "Internal Server Error" });
       }
-      console.error(err);
-      return res.status(500).json({ error: "Internal Server Error" });
-    });
+    );
   }
-  
 
   public stop(): void {
     this.server.close();
