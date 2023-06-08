@@ -20,7 +20,12 @@ export class Server {
     this.url = process.env.API_URL || "localhost";
     this.app.use(
       cors({
-        origin: "http://localhost:3000",
+        origin: [
+          "http://localhost:3000",
+          "https://adagio.dinho.live",
+          "https://adagio.vercel.app",
+          /\.?-dinhostork.vercel.app$/,
+        ],
       })
     );
     this.app.use(express.json());
